@@ -2,7 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
-import './styles/accessibility.css';
+import './styles/Accessibility.css';
 
 const loadGoogleMapsAPI = () => {
   const script = document.createElement('script');

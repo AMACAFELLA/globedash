@@ -13,11 +13,11 @@ let activeSoundEffects: { [key: string]: Howl } = {};
 
 // Sound URLs - using src/sounds directory
 const SOUND_URLS = {
-  success: '/src/sounds/success.mp3',
-  wrong: '/src/sounds/error.mp3',
-  click: '/src/sounds/click.mp3',
-  timeUp: '/src/sounds/timer-end.mp3',
-  backgroundMusic: '/src/sounds/background-music.mp3',
+  success: '/sounds/success.mp3',
+  wrong: '/sounds/error.mp3',
+  click: '/sounds/click.mp3',
+  timeUp: '/sounds/timer-end.mp3',
+  backgroundMusic: '/sounds/background-music.mp3',
 };
 
 // Helper function to handle audio loading errors

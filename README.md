@@ -1,6 +1,6 @@
 # Globe Dash
 
-Globe Dash is an educational 3D game that challenges players to navigate historical sites and popular locations around the world, competing against an AI opponent or other players in multiplayer mode.
+Globe Dash is an educational 3D game that challenges players to navigate classic, hidden gems and popular locations around the world, Multiplayer mode coming soon.
 
 ## Features
 

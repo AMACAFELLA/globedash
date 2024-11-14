@@ -63,66 +63,6 @@ const Profile: React.FC = () => {
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (user) {
-  //       try {
-  //         const gameTypes: Array<'classic' | 'hiddenGems' | 'continent'> = [
-  //           'classic',
-  //           'hiddenGems',
-  //           'continent'
-  //         ];
-  //         const difficulties: Array<'easy' | 'normal' | 'hard'> = [
-  //           'easy',
-  //           'normal',
-  //           'hard'
-  //         ];
-          
-  //         const stats: GameStats = {
-  //           classic: { easy: 0, normal: 0, hard: 0 },
-  //           hiddenGems: { easy: 0, normal: 0, hard: 0 },
-  //           continent: { easy: 0, normal: 0, hard: 0 },
-  //         };
-
-  //         for (const type of gameTypes) {
-  //           for (const diff of difficulties) {
-  //             const score = await getUserHighScore(user.uid, type, diff);
-  //             stats[type][diff] = score;
-  //           }
-  //         }
-
-  //         setGameStats(stats);
-  //         setNewUsername(user.displayName || '');
-
-  //         const userDoc = await getDoc(doc(db, 'users', user.uid));
-  //         const userData = userDoc.data();
-          
-  //         if (userData?.achievements) {
-  //           setAchievements(userData.achievements);
-  //         }
-
-  //         await setDoc(
-  //           doc(db, 'users', user.uid),
-  //           {
-  //             username: user.displayName?.toLowerCase() || '',
-  //             displayName: user.displayName || '',
-  //             email: user.email,
-  //             createdAt: user.metadata.creationTime,
-  //           },
-  //           { merge: true }
-  //         );
-  //       } catch (error) {
-  //         console.error('Error fetching user data:', error);
-  //         toast.error('Failed to load user data');
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
-
-  //   fetchUserData();
-  // }, [user]);
-
   useEffect(() => {
   const fetchUserData = async () => {
     if (user) {

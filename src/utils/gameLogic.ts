@@ -626,7 +626,7 @@ export const checkWinCondition = (
   polygonCoordinates: google.maps.LatLngLiteral[]
 ): boolean => {
   if (!position || !polygonCoordinates || polygonCoordinates.length < 3) {
-    console.log('Invalid position or polygon coordinates');
+    // console.log('Invalid position or polygon coordinates');
     return false;
   }
 

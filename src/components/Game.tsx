@@ -152,28 +152,18 @@ const Game: React.FC = () => {
   }, []);
 
   const handleGameTypeSelect = (selectedGameType: GameType) => {
-    console.log(`Changing game type to: ${selectedGameType}`);
+    // console.log(`Changing game type to: ${selectedGameType}`);
     setGameType(selectedGameType);
     setTotalScore(0);
     setGameState('selectDifficulty');
   };
 
-  // const handleDifficultySelect = (selectedDifficulty: 'easy' | 'normal' | 'hard') => {
-  //   console.log(`Changing difficulty to: ${selectedDifficulty}`);
-  //   setDifficulty(selectedDifficulty);
-  //   setTotalScore(0);
-  //   setHasSelectedDifficulty(true);
-  //   setGameState('showInstructions');
-  //   if (mapRef.current) {
-  //     mapRef.current.defaultLabelsDisabled = selectedDifficulty === 'hard';
-  //   }
-  // };
     const handleDifficultySelect = (selectedDifficulty: 'easy' | 'normal' | 'hard') => {
-    console.log(`Changing difficulty to: ${selectedDifficulty}`);
+    // console.log(`Changing difficulty to: ${selectedDifficulty}`);
     setDifficulty(selectedDifficulty);
     setTotalScore(0);
     setHasSelectedDifficulty(true);
-    setGameState('selectPlayStyle'); // Change to play style selection instead of instructions
+    setGameState('selectPlayStyle');
     if (mapRef.current) {
       mapRef.current.defaultLabelsDisabled = selectedDifficulty === 'hard';
     }
@@ -252,11 +242,11 @@ const Game: React.FC = () => {
 }, [totalScore, roundScore, bestTime, timeLeft, gamesPlayed, user, gameType, difficulty]);
 
   const handleRoundEnd = useCallback((currentRoundScore: number) => {
-    console.log('handleRoundEnd called', { gameType, difficulty, roundScore: currentRoundScore });
+    // console.log('handleRoundEnd called', { gameType, difficulty, roundScore: currentRoundScore });
 
     if (user) {
       const docId = `${gameType}_${difficulty}_${user.uid}`;
-      console.log('Saving score to leaderboard', { docId, roundScore: currentRoundScore });
+      // console.log('Saving score to leaderboard', { docId, roundScore: currentRoundScore });
 
       const leaderboardRef = doc(db, 'leaderboard', docId);
       setDoc(leaderboardRef, {
@@ -267,7 +257,7 @@ const Game: React.FC = () => {
         difficulty,
         updatedAt: serverTimestamp(),
       }).then(() => {
-        console.log('Successfully saved to leaderboard');
+        // console.log('Successfully saved to leaderboard');
         
         const userRef = doc(db, 'users', user.uid);
         return updateDoc(userRef, {
@@ -275,7 +265,7 @@ const Game: React.FC = () => {
           totalScore: increment(currentRoundScore),
         });
       }).then(() => {
-        console.log('Successfully updated user stats');
+        // console.log('Successfully updated user stats');
       }).catch((error) => {
         console.error('Error saving score:', error);
       });
@@ -283,7 +273,7 @@ const Game: React.FC = () => {
 
     setTotalScore((prevTotal) => {
       const newTotal = prevTotal + currentRoundScore;
-      console.log(`Updating total score from ${prevTotal} to ${newTotal}`);
+      // console.log(`Updating total score from ${prevTotal} to ${newTotal}`);
       return newTotal;
     });
 
@@ -294,7 +284,7 @@ const Game: React.FC = () => {
     setGameState('round_end');
 
     if (gamesPlayed >= 5) {
-      console.log('Game end condition met');
+      // console.log('Game end condition met');
       handleGameEnd();
     }
   }, [user, gameType, difficulty, timeLeft, bestTime, gamesPlayed, handleGameEnd]);
@@ -407,8 +397,8 @@ const Game: React.FC = () => {
       currentPosition = playerPositionRef.current;
     }
     
-    console.log('Checking player position:', currentPosition);
-    console.log('Polygon coordinates:', polygonCoordinates);
+    // console.log('Checking player position:', currentPosition);
+    // console.log('Polygon coordinates:', polygonCoordinates);
     
     const targetPosition = new google.maps.LatLng(
       gameData.targetLocation.lat,
@@ -416,14 +406,14 @@ const Game: React.FC = () => {
     );
 
     if (checkWinCondition(currentPosition, polygonCoordinates)) {
-      console.log('Win condition met!');
+      // console.log('Win condition met!');
       const distance = google.maps.geometry.spherical.computeDistanceBetween(
         new google.maps.LatLng(currentPosition.lat, currentPosition.lng),
         targetPosition
       );
       
       const newRoundScore = calculateScore(distance, timeLeft);
-      console.log('Calculated round score:', newRoundScore);
+      // console.log('Calculated round score:', newRoundScore);
       
       setRoundScore(newRoundScore);
       updateScore(newRoundScore);

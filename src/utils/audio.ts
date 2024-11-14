@@ -65,18 +65,18 @@ export const initializeAudio = (settings: {
       html5: true, // Changed to true for better compatibility
       preload: true,
       format: ['mp3'],
-      onload: () => {
-        console.log('Background music loaded successfully');
-      },
-      onloaderror: (_id, error) => {
-        handleAudioError('backgroundMusic', error);
-      },
-      onplay: () => {
-        console.log('Background music started playing');
-      },
-      onstop: () => {
-        console.log('Background music stopped');
-      },
+      // onload: () => {
+      //   console.log('Background music loaded successfully');
+      // },
+      // onloaderror: (_id, error) => {
+      //   handleAudioError('backgroundMusic', error);
+      // },
+      // onplay: () => {
+      //   console.log('Background music started playing');
+      // },
+      // onstop: () => {
+      //   console.log('Background music stopped');
+      // },
     });
 
     // Initialize new sound effects
@@ -88,18 +88,18 @@ export const initializeAudio = (settings: {
         html5: true, // Changed to true for better compatibility
         preload: true,
         format: ['mp3'],
-        onload: () => {
-          console.log(`${effect} sound loaded successfully`);
-        },
+        // onload: () => {
+        //   console.log(`${effect} sound loaded successfully`);
+        // },
         onloaderror: (_id, error) => {
           handleAudioError(effect, error);
         },
-        onplay: () => {
-          console.log(`${effect} sound started playing`);
-        },
-        onend: () => {
-          console.log(`${effect} sound finished playing`);
-        },
+        // onplay: () => {
+        //   console.log(`${effect} sound started playing`);
+        // },
+        // onend: () => {
+        //   console.log(`${effect} sound finished playing`);
+        // },
       });
     });
 
@@ -110,7 +110,7 @@ export const initializeAudio = (settings: {
           if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
           }
-          console.log(`${name} file exists and is accessible`);
+          // console.log(`${name} file exists and is accessible`);
         })
         .catch((error) => {
           console.error(`Cannot access ${name} file:`, error);
@@ -140,13 +140,13 @@ export const updateAudioSettings = (settings: {
   if (backgroundMusic) {
     const musicVolume = settings.volume * (settings.musicEnabled ? 1 : 0);
     backgroundMusic.volume(musicVolume);
-    console.log('Updated background music volume:', musicVolume);
+    // console.log('Updated background music volume:', musicVolume);
   }
 
   Object.entries(soundEffects).forEach(([name, sound]) => {
     const effectVolume = settings.volume * (settings.soundEnabled ? 1 : 0);
     sound.volume(effectVolume);
-    console.log(`Updated ${name} sound volume:`, effectVolume);
+    // console.log(`Updated ${name} sound volume:`, effectVolume);
   });
 };
 
@@ -169,7 +169,7 @@ export const playBackgroundMusic = (settings?: {
       backgroundMusic.volume(volume);
       if (!backgroundMusic.playing()) {
         backgroundMusic.play();
-        console.log('Playing background music with volume:', volume);
+        // console.log('Playing background music with volume:', volume);
       }
     } else {
       stopBackgroundMusic();
@@ -180,7 +180,7 @@ export const playBackgroundMusic = (settings?: {
 export const stopBackgroundMusic = () => {
   if (backgroundMusic) {
     backgroundMusic.stop();
-    console.log('Stopped background music');
+    // console.log('Stopped background music');
   }
 };
 
@@ -211,7 +211,7 @@ export const playSoundEffect = (
     const sound = soundEffects[effect];
     const effectVolume = Math.min(currentSettings.volume * 1.5, 1);
     sound.volume(effectVolume);
-    console.log(`Playing ${effect} sound with volume:`, effectVolume);
+    // console.log(`Playing ${effect} sound with volume:`, effectVolume);
     const soundId = sound.play();
 
     // Store the playing instance
@@ -220,7 +220,7 @@ export const playSoundEffect = (
     // Remove from active sounds when finished
     sound.once('end', () => {
       delete activeSoundEffects[effect];
-      console.log(`${effect} sound finished playing`);
+      // console.log(`${effect} sound finished playing`);
     });
 
     return soundId;
@@ -238,7 +238,7 @@ export const stopAllSounds = () => {
   // Stop all active sound effects
   Object.entries(activeSoundEffects).forEach(([name, sound]) => {
     sound.stop();
-    console.log(`Stopped ${name} sound`);
+    // console.log(`Stopped ${name} sound`);
   });
   activeSoundEffects = {};
 };
@@ -247,7 +247,7 @@ export const stopSoundEffect = (effect: keyof typeof soundEffects) => {
   if (activeSoundEffects[effect]) {
     activeSoundEffects[effect].stop();
     delete activeSoundEffects[effect];
-    console.log(`Stopped ${effect} sound`);
+    // console.log(`Stopped ${effect} sound`);
   }
 };
 

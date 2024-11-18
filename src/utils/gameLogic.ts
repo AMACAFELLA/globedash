@@ -11,11 +11,15 @@ import {
   Timestamp,
 } from "firebase/firestore";
 import logger from "./logger";
+// Initialize Google AI with API key from environment variables
 const genAI = new GoogleGenerativeAI(import.meta.env.VITE_GOOGLE_API_KEY);
-const LOCATION_BATCH_SIZE = 11;
-const MIN_LOCATIONS_THRESHOLD = 10;
-const HISTORY_EXPIRATION_DAYS = 30;
+// Configuration constants
+const LOCATION_BATCH_SIZE = 11; // Number of locations to generate in each batch
+const MIN_LOCATIONS_THRESHOLD = 10; // Minimum number of locations required in bank
+const HISTORY_EXPIRATION_DAYS = 30; // Days before location history expires
+// Game type definition for different game modes
 export type GameType = "classic" | "hiddenGems" | "continent";
+// Interface definitions for location data structure
 interface LocationInfo {
   facts: string[];
   historicalSignificance: string;
@@ -29,10 +33,12 @@ interface LocationInfo {
     postalCode?: string;
   };
 }
+// Location bank structure for caching locations
 interface LocationBank {
   locations: GameData[];
   lastUpdated: Date;
 }
+// Extended location information including coordinates and bounds
 interface GeneratedLandmark extends LocationInfo {
   name: string;
   description: string;
@@ -46,6 +52,7 @@ interface GeneratedLandmark extends LocationInfo {
     west: number;
   };
 }
+// Game data structure containing target and start locations
 export interface GameData {
   targetLocation: {
     lat: number;
@@ -70,6 +77,7 @@ export interface GameData {
   };
   locationInfo: LocationInfo;
 }
+// Achievement structure for player rewards
 export interface Achievement {
   id: string;
   name: string;
@@ -78,6 +86,7 @@ export interface Achievement {
   type: "score" | "games" | "accuracy" | "speed" | "special";
   requirement: number;
 }
+// List of countries supporting JS 3D Maps
 const JS_3D_SUPPORTED_COUNTRIES = [
   "Albania",
   "Argentina",
@@ -134,6 +143,7 @@ const JS_3D_SUPPORTED_COUNTRIES = [
   "United States",
   "South Africa",
 ];
+// Prompts for generating different types of locations
 const PROMPTS: Record<GameType, string> = {
   classic: `Generate ${LOCATION_BATCH_SIZE} locations as a JSON array. CRITICAL REQUIREMENTS:
     Format each location EXACTLY as follows:
@@ -250,6 +260,7 @@ const PROMPTS: Record<GameType, string> = {
     - Do not provide the same locations in response
     - Provide nature Tourist Locations that each of the countires offer. Do not provide mountains.`,
 };
+// Validation functions
 function validateLocation(landmark: GeneratedLandmark): boolean {
   if (!JS_3D_SUPPORTED_COUNTRIES.includes(landmark.country)) {
     return false;

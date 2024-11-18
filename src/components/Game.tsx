@@ -39,6 +39,7 @@ import GameEndModal from "./GameEndModal";
 import GameStatus from "./GameStatus";
 import LocationPreview from "./LocationPreview";
 import NowPlaying from "./NowPlaying";
+// Custom type definitions for Google Maps 3D elements
 interface Map3DElement extends HTMLElement {
   center: { lat: number; lng: number; altitude: number };
   heading: number;
@@ -52,6 +53,7 @@ interface Map3DElement extends HTMLElement {
 interface Polygon3DElement extends HTMLElement {
   outerCoordinates: { lat: number; lng: number; altitude: number }[];
 }
+// Core game state management
 const Game: React.FC = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -78,6 +80,7 @@ const Game: React.FC = () => {
     google.maps.LatLngLiteral[]
   >([]);
   const [error, setError] = useState<string | null>(null);
+  // Game configuration state
   const [difficulty, setDifficulty] = useState<"easy" | "normal" | "hard">(
     "easy",
   );
@@ -91,6 +94,7 @@ const Game: React.FC = () => {
   const [gamesPlayed, setGamesPlayed] = useState(0);
   const [totalScore, setTotalScore] = useState(0);
   const [bestTime, setBestTime] = useState<number | null>(null);
+  // Returns difficulty-specific settings for camera position and time limits
   const getDifficultySettings = (
     diff: "easy" | "normal" | "hard",
     isPreview: boolean = false,
@@ -110,6 +114,7 @@ const Game: React.FC = () => {
     };
     return settings[diff];
   };
+  // Creates a 3D polygon around the target location for visual feedback
   const createPolygonAroundTarget = useCallback(
     (targetLocation: { lat: number; lng: number }) => {
       if (polygonRef.current) {
@@ -153,6 +158,7 @@ const Game: React.FC = () => {
     },
     [difficulty],
   );
+  // Creates a 3D polygon around the target location for visual feedback
   const add3DMarker = useCallback(
     (location: { lat: number; lng: number }) => {
       if (mapRef.current) {
@@ -179,6 +185,7 @@ const Game: React.FC = () => {
     },
     [difficulty],
   );
+  // Handles game quit logic and score saving
   const handleQuit = async () => {
     setIsQuitting(true);
     try {
@@ -191,6 +198,7 @@ const Game: React.FC = () => {
       setIsQuitting(false);
     }
   };
+  // Game flow control handlers
   const handleGameTypeSelect = (selectedGameType: GameType) => {
     setGameType(selectedGameType);
     setTotalScore(0);
@@ -211,6 +219,7 @@ const Game: React.FC = () => {
     setGameState("preview");
     startNewRound();
   };
+  // Handles end of game logic, saves scores and checks achievements
   const handleGameEnd = useCallback(async () => {
     await saveCurrentScore();
     if (!user) return;
@@ -283,6 +292,7 @@ const Game: React.FC = () => {
     difficulty,
     saveCurrentScore,
   ]);
+  // Handles end of round logic and score updates
   const handleRoundEnd = useCallback(
     (currentRoundScore: number) => {
       if (user) {
@@ -329,6 +339,7 @@ const Game: React.FC = () => {
       handleGameEnd,
     ],
   );
+  // Initializes a new round with location data and camera animations
   const startNewRound = useCallback(async () => {
     setIsLoadingLocation(true);
     if (currentTimeout.current) {
@@ -348,6 +359,7 @@ const Game: React.FC = () => {
       setTimeLeft(gameplaySettings.time);
       setRoundScore(0);
       if (data.targetLocation && mapRef.current) {
+        // Set up initial camera position and target markers
         mapRef.current.center = {
           lat: data.targetLocation.lat,
           lng: data.targetLocation.lng,
@@ -358,6 +370,7 @@ const Game: React.FC = () => {
         mapRef.current.range = previewSettings.range;
         createPolygonAroundTarget(data.targetLocation);
         add3DMarker(data.targetLocation);
+        // Start camera animation for location preview
         const flyCamera = () => {
           mapRef.current?.flyCameraAround({
             camera: {
@@ -375,6 +388,7 @@ const Game: React.FC = () => {
           });
         };
         setTimeout(flyCamera, 100);
+        // Transition to gameplay after preview
         currentTimeout.current = setTimeout(() => {
           setGameState("playing");
           if (mapRef.current) {
@@ -621,12 +635,7 @@ const Game: React.FC = () => {
       <div className="relative h-screen">
         {isLoadingLocation && (
           <div className="absolute inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
-            <div className="bg-white p-8 rounded-xl shadow-xl">
-              <LoadingSpinner />
-              <p className="mt-4 text-center text-gray-700">
-                Loading next location...
-              </p>
-            </div>
+            <LoadingSpinner />
           </div>
         )}
         <NowPlaying />

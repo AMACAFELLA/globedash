@@ -16,7 +16,7 @@ import {
 } from "firebase/firestore";
 import { db } from "./firebase";
 import logger from "./logger";
-
+// Type definitions
 export interface Player {
   id: string;
   username: string;
@@ -46,7 +46,7 @@ export interface LeaderboardEntry {
   difficulty: "easy" | "normal" | "hard";
   updatedAt?: Timestamp;
 }
-
+// Fetch leaderboard data for specific game type and difficulty
 export const getLeaderboard = async (
   gameType: "classic" | "hiddenGems" | "continent",
   difficulty: "easy" | "normal" | "hard",
@@ -76,53 +76,7 @@ export const getLeaderboard = async (
     return [];
   }
 };
-
-// export const addScoreToLeaderboard = async (
-//   userId: string,
-//   score: number,
-//   username: string,
-//   gameType: "classic" | "hiddenGems" | "continent",
-//   difficulty: "easy" | "normal" | "hard",
-// ): Promise<void> => {
-//   try {
-//     const docId = `${gameType}_${difficulty}_${userId}`;
-//     const docRef = doc(db, "leaderboard", docId);
-
-//     const docSnap = await getDoc(docRef);
-
-//     if (!docSnap.exists()) {
-//       await setDoc(docRef, {
-//         userId,
-//         username,
-//         score,
-//         gameType,
-//         difficulty,
-//         createdAt: serverTimestamp(),
-//         updatedAt: serverTimestamp(),
-//       });
-//     } else {
-//       const currentScore = docSnap.data().score || 0;
-//       if (score > currentScore) {
-//         await updateDoc(docRef, {
-//           score,
-//           username,
-//           updatedAt: serverTimestamp(),
-//         });
-//       }
-//     }
-
-//     const userRef = doc(db, "users", userId);
-//     await updateDoc(userRef, {
-//       [`stats.${gameType}.${difficulty}`]: score,
-//       totalScore: increment(score),
-//       lastPlayed: serverTimestamp(),
-//     });
-//   } catch (error) {
-//     logger.error("Failed to add score to leaderboard:", error);
-//     throw error;
-//   }
-// };
-
+// Add or update score in leaderboard
 export const addScoreToLeaderboard = async (
   userId: string,
   score: number,
@@ -169,41 +123,7 @@ export const addScoreToLeaderboard = async (
   }
 };
 
-// export const getUserHighScore = async (
-//   userId: string,
-//   gameType: "classic" | "hiddenGems" | "continent",
-//   difficulty: "easy" | "normal" | "hard",
-// ): Promise<number> => {
-//   if (!userId || !gameType || !difficulty) {
-//     logger.error("Invalid parameters in getUserHighScore");
-//     return 0;
-//   }
-
-//   try {
-//     const userRef = doc(db, "users", userId);
-//     const userDoc = await getDoc(userRef);
-
-//     if (userDoc.exists()) {
-//       const userData = userDoc.data();
-//       const score = userData?.stats?.[gameType]?.[difficulty] || 0;
-//       return score;
-//     }
-
-//     const docId = `${gameType}_${difficulty}_${userId}`;
-//     const docRef = doc(db, "leaderboard", docId);
-//     const docSnap = await getDoc(docRef);
-
-//     if (docSnap.exists()) {
-//       return docSnap.data().score || 0;
-//     }
-
-//     return 0;
-//   } catch (error) {
-//     logger.error("Failed to get user high score:", error);
-//     return 0;
-//   }
-// };
-
+// Get user's high score for specific game type and difficulty
 export const getUserHighScore = async (
   userId: string,
   gameType: "classic" | "hiddenGems" | "continent",
@@ -238,7 +158,7 @@ export const getUserHighScore = async (
     return 0;
   }
 };
-
+// Update username across all leaderboard entries
 export const updateUsernameInLeaderboard = async (
   userId: string,
   newUsername: string,
@@ -313,7 +233,7 @@ export const getUserStats = async (userId: string): Promise<any> => {
         }
       );
     }
-
+    // Return default stats structure if no data exists
     return {
       classic: { easy: 0, normal: 0, hard: 0 },
       hiddenGems: { easy: 0, normal: 0, hard: 0 },

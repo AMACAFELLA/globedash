@@ -98,7 +98,7 @@ const Game: React.FC = () => {
     if (isPreview) {
       return {
         time: 90,
-        altitude: 1000,
+        altitude: 4000,
         tilt: 45,
         range: 2000,
       };
@@ -106,7 +106,7 @@ const Game: React.FC = () => {
     const settings = {
       easy: { time: 90, altitude: 2000, tilt: 45, range: 2000 },
       normal: { time: 60, altitude: 1000, tilt: 95, range: 50 },
-      hard: { time: 45, altitude: 500, tilt: 95, range: 30 },
+      hard: { time: 45, altitude: 800, tilt: 95, range: 30 },
     };
     return settings[diff];
   };
@@ -577,11 +577,11 @@ const Game: React.FC = () => {
         gameState === "playing" &&
         (difficulty === "normal" || difficulty === "hard")
       ) {
-        mapRef.current.setAttribute("max-altitude", "100");
-        mapRef.current.setAttribute("min-altitude", "0");
+        mapRef.current.setAttribute("max-altitude", "500");
+        mapRef.current.setAttribute("min-altitude", "50");
       } else {
         mapRef.current.setAttribute("max-altitude", "4000");
-        mapRef.current.setAttribute("min-altitude", "0");
+        mapRef.current.setAttribute("min-altitude", "50");
       }
     }
   }, [gameState, difficulty]);
@@ -598,6 +598,7 @@ const Game: React.FC = () => {
           mapRef.current.heading = 0;
           mapRef.current.tilt = settings.tilt;
           mapRef.current.range = settings.range;
+          mapRef.current.setAttribute("min-altitude", "50");
         }
       });
     }

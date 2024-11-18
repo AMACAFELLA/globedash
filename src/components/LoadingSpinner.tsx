@@ -12,13 +12,13 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   const [currentMessage, setCurrentMessage] = useState(message);
 
   const loadingMessages = [
-    { message: "Initializing Globe Dash...", duration: 1000 },
-    { message: "Generating new locations...", duration: 2000 },
-    { message: "Fetching location data...", duration: 2000 },
-    { message: "Getting target information...", duration: 2000 },
-    { message: "Quick dance break! 💃", duration: 1000 },
-    { message: "Almost there...", duration: 1000 },
-    { message: "Finalizing preparations...", duration: 1000 },
+    { message: "Initializing Globe Dash...", duration: 10000 },
+    { message: "Generating new locations...", duration: 15000 },
+    { message: "Fetching location data...", duration: 15000 },
+    { message: "Getting target information...", duration: 15000 },
+    { message: "Quick dance break! 💃", duration: 15000 },
+    { message: "Almost there...", duration: 15000 },
+    { message: "Finalizing preparations...", duration: 15000 },
   ];
 
   useEffect(() => {

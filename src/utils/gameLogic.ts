@@ -172,7 +172,7 @@ const PROMPTS: Record<GameType, string> = {
     - Provide at least 3 unique facts
     - Write detailed historical and cultural significance
     - Do not provide the same locations in response
-    - Focus on landmarks, museums, art galleries, popular parks, nature tours, restaurants and tourist attractions`,
+    - Focus on landmarks, museums, art galleries, popular parks, nature tours, restaurants and tourist attractions.`,
   hiddenGems: `Generate ${LOCATION_BATCH_SIZE} hidden gem locations as a JSON array. CRITICAL REQUIREMENTS:
     Format each location EXACTLY as follows:
     {
@@ -210,7 +210,7 @@ const PROMPTS: Record<GameType, string> = {
     - Provide at least 3 unique facts
     - Write detailed historical and cultural significance
     - Do not provide the same locations in response
-    - Focus on lesser-known but authentic local spots`,
+    - Focus on lesser-known but authentic local spots ranging from nature, food, sports, activities, museums, locations but no moutains. `,
   continent: `Generate ${LOCATION_BATCH_SIZE} locations as a JSON array. CRITICAL REQUIREMENTS:
     Format each location EXACTLY as follows:
     {
@@ -248,7 +248,7 @@ const PROMPTS: Record<GameType, string> = {
     - Provide at least 3 unique facts
     - Write detailed historical and cultural significance
     - Do not provide the same locations in response
-    - Focus on the best spots in each continent`,
+    - Provide nature Tourist Locations that each of the countires offer. Do not provide mountains.`,
 };
 function validateLocation(landmark: GeneratedLandmark): boolean {
   if (!JS_3D_SUPPORTED_COUNTRIES.includes(landmark.country)) {

@@ -1,4 +1,4 @@
-import { Howl } from 'howler';
+import { Howl } from "howler";
 
 let backgroundMusic: Howl | null = null;
 let soundEffects: { [key: string]: Howl } = {};
@@ -13,11 +13,11 @@ let activeSoundEffects: { [key: string]: Howl } = {};
 
 // Sound URLs - using src/sounds directory
 const SOUND_URLS = {
-  success: '/sounds/success.mp3',
-  wrong: '/sounds/error.mp3',
-  click: '/sounds/click.mp3',
-  timeUp: '/sounds/timer-end.mp3',
-  backgroundMusic: '/sounds/background-music.mp3',
+  success: "/sounds/success.mp3",
+  wrong: "/sounds/error.mp3",
+  click: "/sounds/click.mp3",
+  timeUp: "/sounds/timer-end.mp3",
+  backgroundMusic: "/sounds/background-music.mp3",
 };
 
 // Helper function to handle audio loading errors
@@ -25,7 +25,7 @@ const handleAudioError = (name: string, error: any) => {
   console.error(`Error loading ${name}:`, error);
   // Try alternative loading method
   const audio = new Audio(SOUND_URLS[name as keyof typeof SOUND_URLS]);
-  audio.addEventListener('error', (e) => {
+  audio.addEventListener("error", (e) => {
     console.error(`Alternative loading failed for ${name}:`, e);
   });
 };
@@ -64,7 +64,7 @@ export const initializeAudio = (settings: {
       volume: settings.volume * (settings.musicEnabled ? 1 : 0),
       html5: true, // Changed to true for better compatibility
       preload: true,
-      format: ['mp3'],
+      format: ["mp3"],
       // onload: () => {
       //   console.log('Background music loaded successfully');
       // },
@@ -80,14 +80,14 @@ export const initializeAudio = (settings: {
     });
 
     // Initialize new sound effects
-    const effects = ['success', 'wrong', 'click', 'timeUp'] as const;
+    const effects = ["success", "wrong", "click", "timeUp"] as const;
     effects.forEach((effect) => {
       soundEffects[effect] = new Howl({
         src: [SOUND_URLS[effect]],
         volume: settings.volume * (settings.soundEnabled ? 1 : 0),
         html5: true, // Changed to true for better compatibility
         preload: true,
-        format: ['mp3'],
+        format: ["mp3"],
         // onload: () => {
         //   console.log(`${effect} sound loaded successfully`);
         // },
@@ -121,11 +121,11 @@ export const initializeAudio = (settings: {
   };
 
   // Initialize audio only after user interaction
-  if (document.readyState !== 'loading') {
-    document.body.addEventListener('click', initAudio, { once: true });
+  if (document.readyState !== "loading") {
+    document.body.addEventListener("click", initAudio, { once: true });
   } else {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.addEventListener('click', initAudio, { once: true });
+    document.addEventListener("DOMContentLoaded", () => {
+      document.body.addEventListener("click", initAudio, { once: true });
     });
   }
 };
@@ -190,7 +190,7 @@ export const playSoundEffect = (
     volume: number;
     soundEnabled: boolean;
     musicEnabled: boolean;
-  }
+  },
 ) => {
   if (settings) {
     currentSettings = settings;
@@ -218,7 +218,7 @@ export const playSoundEffect = (
     activeSoundEffects[effect] = sound;
 
     // Remove from active sounds when finished
-    sound.once('end', () => {
+    sound.once("end", () => {
       delete activeSoundEffects[effect];
       // console.log(`${effect} sound finished playing`);
     });
@@ -252,11 +252,11 @@ export const stopSoundEffect = (effect: keyof typeof soundEffects) => {
 };
 
 export const isSoundLoaded = (effect: keyof typeof soundEffects): boolean => {
-  return soundEffects[effect]?.state() === 'loaded' || false;
+  return soundEffects[effect]?.state() === "loaded" || false;
 };
 
 export const isBackgroundMusicLoaded = (): boolean => {
-  return backgroundMusic?.state() === 'loaded' || false;
+  return backgroundMusic?.state() === "loaded" || false;
 };
 
 export const getCurrentVolumes = () => {
@@ -266,7 +266,7 @@ export const getCurrentVolumes = () => {
       Object.entries(soundEffects).map(([name, sound]) => [
         name,
         sound.volume(),
-      ])
+      ]),
     ),
   };
 };

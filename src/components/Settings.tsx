@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useSettings } from '../contexts/SettingsContext';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useSettings } from "../contexts/SettingsContext";
+import { useNavigate } from "react-router-dom";
 import {
   Volume2,
   Music,
@@ -10,8 +10,8 @@ import {
   Globe,
   Play,
   Square,
-} from 'lucide-react';
-import toast from 'react-hot-toast';
+} from "lucide-react";
+import toast from "react-hot-toast";
 import {
   playSoundEffect,
   playBackgroundMusic,
@@ -19,16 +19,16 @@ import {
   getCurrentVolumes,
   isSoundLoaded,
   isBackgroundMusicLoaded,
-} from '../utils/audio';
-
+} from "../utils/audio";
+// Options for colorblind modes
 const colorblindOptions = [
-  { value: 'none', label: 'None' },
-  { value: 'protanopia', label: 'Protanopia (Red-Blind)' },
-  { value: 'deuteranopia', label: 'Deuteranopia (Green-Blind)' },
-  { value: 'tritanopia', label: 'Tritanopia (Blue-Blind)' },
-  { value: 'achromatopsia', label: 'Achromatopsia (Total Color Blindness)' },
+  { value: "none", label: "None" },
+  { value: "protanopia", label: "Protanopia (Red-Blind)" },
+  { value: "deuteranopia", label: "Deuteranopia (Green-Blind)" },
+  { value: "tritanopia", label: "Tritanopia (Blue-Blind)" },
+  { value: "achromatopsia", label: "Achromatopsia (Total Color Blindness)" },
 ] as const;
-
+// Settings component for configuring user preferences
 const Settings: React.FC = () => {
   const { settings, updateSettings } = useSettings();
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Settings: React.FC = () => {
   // Play test sound when opening settings
   useEffect(() => {
     if (settings.soundEnabled) {
-      playSoundEffect('click', settings);
+      playSoundEffect("click", settings);
     }
     return () => {
       stopBackgroundMusic();
@@ -52,21 +52,21 @@ const Settings: React.FC = () => {
       setVolumes(getCurrentVolumes());
     }, 100);
 
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); // Clear interval on unmount
   }, []);
 
   const handleVolumeChange = (value: number) => {
     const newSettings = { ...settings, volume: value };
     updateSettings(newSettings);
   };
-
+  // Toggle settings for sound and music
   const toggleSetting = (key: keyof typeof settings) => {
     const newSettings = { ...settings, [key]: !settings[key] };
     updateSettings(newSettings);
-
-    if (key === 'soundEnabled' && newSettings.soundEnabled) {
-      playSoundEffect('success', newSettings);
-    } else if (key === 'musicEnabled') {
+    // Play sound or music based on toggled setting
+    if (key === "soundEnabled" && newSettings.soundEnabled) {
+      playSoundEffect("success", newSettings);
+    } else if (key === "musicEnabled") {
       if (newSettings.musicEnabled) {
         setIsTestingMusic(true);
         playBackgroundMusic(newSettings);
@@ -75,22 +75,24 @@ const Settings: React.FC = () => {
         stopBackgroundMusic();
       }
     }
-
+    // Show toast notification for setting change
     toast.success(
       `${key
-        .replace(/([A-Z])/g, ' $1')
+        .replace(/([A-Z])/g, " $1")
         .toLowerCase()
-        .trim()} ${settings[key] ? 'disabled' : 'enabled'}`
+        .trim()} ${settings[key] ? "disabled" : "enabled"}`,
     );
   };
 
-  const toggleBooleanSetting = (key: 'soundEnabled' | 'musicEnabled' | 'highContrastMode') => {
+  const toggleBooleanSetting = (
+    key: "soundEnabled" | "musicEnabled" | "highContrastMode",
+  ) => {
     const newSettings = { ...settings, [key]: !settings[key] };
     updateSettings(newSettings);
 
-    if (key === 'soundEnabled' && newSettings.soundEnabled) {
-      playSoundEffect('success', newSettings);
-    } else if (key === 'musicEnabled') {
+    if (key === "soundEnabled" && newSettings.soundEnabled) {
+      playSoundEffect("success", newSettings);
+    } else if (key === "musicEnabled") {
       if (newSettings.musicEnabled) {
         setIsTestingMusic(true);
         playBackgroundMusic(newSettings);
@@ -102,9 +104,9 @@ const Settings: React.FC = () => {
 
     toast.success(
       `${key
-        .replace(/([A-Z])/g, ' $1')
+        .replace(/([A-Z])/g, " $1")
         .toLowerCase()
-        .trim()} ${settings[key] ? 'disabled' : 'enabled'}`
+        .trim()} ${settings[key] ? "disabled" : "enabled"}`,
     );
   };
 
@@ -122,7 +124,7 @@ const Settings: React.FC = () => {
       setIsTestingMusic(true);
     }
   };
-
+  // Render the settings component
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-400 to-blue-600">
       <div className="max-w-3xl mx-auto px-4 py-8">
@@ -166,7 +168,7 @@ const Settings: React.FC = () => {
                       type="checkbox"
                       className="sr-only peer"
                       checked={settings.soundEnabled}
-                      onChange={() => toggleSetting('soundEnabled')}
+                      onChange={() => toggleSetting("soundEnabled")}
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                   </label>
@@ -187,7 +189,7 @@ const Settings: React.FC = () => {
                       type="checkbox"
                       className="sr-only peer"
                       checked={settings.musicEnabled}
-                      onChange={() => toggleSetting('musicEnabled')}
+                      onChange={() => toggleSetting("musicEnabled")}
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
                   </label>
@@ -222,7 +224,7 @@ const Settings: React.FC = () => {
                     </p>
                     <div className="space-y-1 text-sm text-gray-600">
                       <p>
-                        Background Music:{' '}
+                        Background Music:{" "}
                         {Math.round(volumes.backgroundMusic * 100)}%
                       </p>
                       {Object.entries(volumes.soundEffects).map(
@@ -230,7 +232,7 @@ const Settings: React.FC = () => {
                           <p key={name}>
                             {name}: {Math.round(volume * 100)}%
                           </p>
-                        )
+                        ),
                       )}
                     </div>
                   </div>
@@ -238,9 +240,9 @@ const Settings: React.FC = () => {
                   <div className="space-y-2">
                     <div className="flex space-x-2">
                       <button
-                        onClick={() => playSoundEffect('click', settings)}
+                        onClick={() => playSoundEffect("click", settings)}
                         className="flex-1 bg-blue-100 hover:bg-blue-200 text-blue-700 font-semibold py-2 px-4 rounded transition-colors"
-                        disabled={!isSoundLoaded('click')}
+                        disabled={!isSoundLoaded("click")}
                       >
                         Test Sound
                       </button>
@@ -263,7 +265,7 @@ const Settings: React.FC = () => {
                       </button>
                     </div>
                     <div className="text-sm text-gray-500">
-                      {!isSoundLoaded('click') && (
+                      {!isSoundLoaded("click") && (
                         <p>Loading sound effects...</p>
                       )}
                       {!isBackgroundMusicLoaded() && (
@@ -277,64 +279,68 @@ const Settings: React.FC = () => {
 
             {/* Accessibility Settings */}
             <div className="p-6 space-y-8">
-            <div className="space-y-6">
-              <h2 className="text-xl font-bold text-gray-900 flex items-center">
-                <Eye className="mr-2 text-blue-500" />
-                Accessibility
-              </h2>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3">
-                    <Eye className="text-blue-500" />
-                    <div>
-                      <span className="block">High Contrast Mode</span>
-                      <span className="text-sm text-gray-500">
-                        Enhanced visual clarity with stronger contrasts
-                      </span>
+              <div className="space-y-6">
+                <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                  <Eye className="mr-2 text-blue-500" />
+                  Accessibility
+                </h2>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3">
+                      <Eye className="text-blue-500" />
+                      <div>
+                        <span className="block">High Contrast Mode</span>
+                        <span className="text-sm text-gray-500">
+                          Enhanced visual clarity with stronger contrasts
+                        </span>
+                      </div>
                     </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input
+                        type="checkbox"
+                        className="sr-only peer"
+                        checked={settings.highContrastMode}
+                        onChange={() =>
+                          toggleBooleanSetting("highContrastMode")
+                        }
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                    </label>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input
-                      type="checkbox"
-                      className="sr-only peer"
-                      checked={settings.highContrastMode}
-                      onChange={() => toggleBooleanSetting('highContrastMode')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
-                  </label>
-                </div>
 
-                <div className="p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center space-x-3 mb-4">
-                    <Palette className="text-blue-500" />
-                    <div>
-                      <span className="block">Color Blind Mode</span>
-                      <span className="text-sm text-gray-500">
-                        Choose a color vision deficiency filter
-                      </span>
+                  <div className="p-4 bg-gray-50 rounded-lg">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <Palette className="text-blue-500" />
+                      <div>
+                        <span className="block">Color Blind Mode</span>
+                        <span className="text-sm text-gray-500">
+                          Choose a color vision deficiency filter
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="space-y-2">
-                    {colorblindOptions.map((option) => (
-                      <label
-                        key={option.value}
-                        className="flex items-center space-x-3 p-2 rounded hover:bg-gray-100 cursor-pointer"
-                      >
-                        <input
-                          type="radio"
-                          name="colorblind"
-                          value={option.value}
-                          checked={settings.colorblindMode === option.value}
-                          onChange={() => handleColorblindChange(option.value)}
-                          className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-                        />
-                        <span>{option.label}</span>
-                      </label>
-                    ))}
+                    <div className="space-y-2">
+                      {colorblindOptions.map((option) => (
+                        <label
+                          key={option.value}
+                          className="flex items-center space-x-3 p-2 rounded hover:bg-gray-100 cursor-pointer"
+                        >
+                          <input
+                            type="radio"
+                            name="colorblind"
+                            value={option.value}
+                            checked={settings.colorblindMode === option.value}
+                            onChange={() =>
+                              handleColorblindChange(option.value)
+                            }
+                            className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                          />
+                          <span>{option.label}</span>
+                        </label>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
             </div>
           </div>
         </div>

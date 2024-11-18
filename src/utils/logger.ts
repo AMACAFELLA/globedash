@@ -8,6 +8,9 @@ const logger = {
   error: (message: string, ...args: any[]) => {
     console.error(`[ERROR] ${message}`, ...args);
   },
+  debug: (message: string, ...args: any[]) => {
+    console.debug(message, ...args);
+  },
 };
 
 export default logger;

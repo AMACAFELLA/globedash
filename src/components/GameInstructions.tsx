@@ -1,37 +1,34 @@
-import React from 'react';
-import { Info, MapPin, Timer, Trophy } from 'lucide-react';
-
+import React from "react";
+import { Info, MapPin, Timer, Trophy } from "lucide-react";
+// Props interface for GameInstructions component
 interface GameInstructionsProps {
-  difficulty: 'easy' | 'normal' | 'hard';
+  difficulty: "easy" | "normal" | "hard";
   onClose: () => void;
-  isMultiplayer?: boolean;
 }
-
+// GameInstructions functional component
 const GameInstructions: React.FC<GameInstructionsProps> = ({
   difficulty,
   onClose,
-  isMultiplayer = false,
 }) => {
+  // Difficulty settings for the game
   const difficultySettings = {
     easy: {
-      time: '90 seconds',
-      view: 'Free camera movement with aerial views',
-      special: 'Full map navigation',
+      time: "90 seconds",
+      view: "Free camera movement with aerial views",
+      special: "Full map navigation",
     },
     normal: {
-      time: '60 seconds',
-      view: 'Street-level perspective',
-      special: 'Limited to ground-level navigation',
+      time: "60 seconds",
+      view: "Street-level perspective",
+      special: "Limited to ground-level navigation",
     },
     hard: {
-      time: '45 seconds',
-      view: 'Restricted street-level view',
-      special: 'No map labels, limited movement',
+      time: "45 seconds",
+      view: "Restricted street-level view",
+      special: "No map labels, limited movement",
     },
   };
-
-  const settings = difficultySettings[difficulty];
-
+  const settings = difficultySettings[difficulty]; // Get settings based on selected difficulty
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
       <div className="bg-white p-8 rounded-xl shadow-xl max-w-lg w-full">
@@ -39,7 +36,6 @@ const GameInstructions: React.FC<GameInstructionsProps> = ({
           <Info className="text-blue-500" size={28} />
           <h2 className="text-2xl font-bold">How to Play</h2>
         </div>
-
         <div className="space-y-6">
           <div className="bg-gray-50 p-4 rounded-lg">
             <h3 className="font-bold text-lg mb-2">Game Settings</h3>
@@ -58,24 +54,16 @@ const GameInstructions: React.FC<GameInstructionsProps> = ({
               </li>
             </ul>
           </div>
-
           <div>
             <h3 className="font-bold text-lg mb-2">Game Rules</h3>
             <ol className="list-decimal list-inside space-y-2">
-              <li>You'll be shown a location for 5 seconds - remember it!</li>
+              <li>You'll be shown a location for 30 seconds - remember it!</li>
               <li>After preview, you'll be placed somewhere in the world</li>
               <li>Use your mouse to navigate the map</li>
-              <li>Click on the map where you think the target location is</li>
-              <li>The closer you are, the more points you'll earn</li>
-              {!isMultiplayer && (
-                <li>Race against the AI opponent to find the location first</li>
-              )}
-              {isMultiplayer && (
-                <li>Race against other players to find the location first</li>
-              )}
+              <li>Navigate to the target location as fast as you can</li>
+              <li>The faster you are, the more points you'll earn</li>
             </ol>
           </div>
-
           <div>
             <h3 className="font-bold text-lg mb-2">Scoring</h3>
             <ul className="space-y-2">
@@ -83,15 +71,10 @@ const GameInstructions: React.FC<GameInstructionsProps> = ({
                 <Trophy className="text-yellow-500" size={20} />
                 <span>Base Score: 1000 points</span>
               </li>
-              <li>Distance Bonus: Closer guesses earn more points</li>
-              <li>Time Bonus: Faster guesses earn bonus points</li>
-              {!isMultiplayer && (
-                <li>AI Bonus: Beat the AI for extra points</li>
-              )}
+              <li>Time Bonus: Faster navigation earn bonus points</li>
             </ul>
           </div>
         </div>
-
         <button
           onClick={onClose}
           className="mt-6 w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-6 rounded-lg transition-colors duration-200"
@@ -102,5 +85,4 @@ const GameInstructions: React.FC<GameInstructionsProps> = ({
     </div>
   );
 };
-
 export default GameInstructions;

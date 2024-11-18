@@ -1,69 +1,69 @@
 /* High Contrast Mode */
 .high-contrast {
-    --bg-primary: #000000;
-    --text-primary: #FFFFFF;
-    --bg-secondary: #FFFFFF;
-    --text-secondary: #000000;
-    --accent-color: #FFFF00;
-    --border-color: #FFFFFF;
+  --bg-primary: #000000;
+  --text-primary: #ffffff;
+  --bg-secondary: #ffffff;
+  --text-secondary: #000000;
+  --accent-color: #ffff00;
+  --border-color: #ffffff;
 }
 
 /* Base High Contrast Styles */
 .high-contrast .bg-white {
-    background-color: var(--bg-primary) !important;
-    color: var(--text-primary) !important;
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
 }
 
 .high-contrast .text-gray-600,
 .high-contrast .text-gray-700,
 .high-contrast .text-gray-800,
 .high-contrast .text-gray-900 {
-    color: var(--text-primary) !important;
+  color: var(--text-primary) !important;
 }
 
 .high-contrast .border,
 .high-contrast .border-gray-100,
 .high-contrast .border-gray-200,
 .high-contrast .border-gray-300 {
-    border-color: var(--border-color) !important;
+  border-color: var(--border-color) !important;
 }
 
 .high-contrast .bg-gray-50,
 .high-contrast .bg-gray-100 {
-    background-color: var(--bg-secondary) !important;
-    color: var(--text-secondary) !important;
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-secondary) !important;
 }
 
 .high-contrast button {
-    border: 2px solid var(--border-color) !important;
+  border: 2px solid var(--border-color) !important;
 }
 
 /* Colorblind Filters */
 .protanopia {
-    filter: url('#protanopia-filter');
+  filter: url("#protanopia-filter");
 }
 
 .deuteranopia {
-    filter: url('#deuteranopia-filter');
+  filter: url("#deuteranopia-filter");
 }
 
 .tritanopia {
-    filter: url('#tritanopia-filter');
+  filter: url("#tritanopia-filter");
 }
 
 .achromatopsia {
-    filter: grayscale(100%) !important;
+  filter: grayscale(100%) !important;
 }
 
 /* SVG Filters for Color Blindness */
-@supports (filter: url('#protanopia-filter')) {
-    body::after {
-        content: '';
-        position: fixed;
-        top: -100%;
-        left: -100%;
-        height: 300%;
-        width: 300%;
-        pointer-events: none;
-    }
+@supports (filter: url("#protanopia-filter")) {
+  body::after {
+    content: "";
+    position: fixed;
+    top: -100%;
+    left: -100%;
+    height: 300%;
+    width: 300%;
+    pointer-events: none;
+  }
 }

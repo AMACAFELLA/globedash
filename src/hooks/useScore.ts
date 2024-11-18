@@ -1,13 +1,13 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect } from "react";
 import {
   addScoreToLeaderboard,
   getUserHighScore,
-} from '../utils/firebaseUtils';
-import { useAuth } from '../contexts/AuthContext';
+} from "../utils/firebaseUtils";
+import { useAuth } from "../contexts/AuthContext";
 
 export const useScore = (
-  gameType: 'classic' | 'hiddenGems' | 'continent' = 'classic',
-  difficulty: 'easy' | 'normal' | 'hard' = 'easy'
+  gameType: "classic" | "hiddenGems" | "continent" = "classic",
+  difficulty: "easy" | "normal" | "hard" = "easy",
 ) => {
   const [score, setScore] = useState(0);
   const [highScore, setHighScore] = useState(0);
@@ -17,14 +17,17 @@ export const useScore = (
     const fetchHighScore = async () => {
       if (user?.uid) {
         try {
-          const userHighScore = await getUserHighScore(user.uid, gameType, difficulty);
+          const userHighScore = await getUserHighScore(
+            user.uid,
+            gameType,
+            difficulty,
+          );
           setHighScore(userHighScore);
         } catch (error) {
-          console.error('Error fetching high score:', error);
+          console.error("Error fetching high score:", error);
         }
       }
     };
-
     fetchHighScore();
   }, [user, gameType, difficulty]);
 
@@ -32,27 +35,47 @@ export const useScore = (
     async (points: number) => {
       if (!user?.uid || !user?.displayName) return;
 
-      try {
-        const newScore = score + points;
-        setScore(newScore);
+      // Always update the current game score
+      setScore(points);
 
-        // Only update leaderboard if the new score is higher than the current high score
-        if (newScore > highScore) {
+      try {
+        // Update leaderboard if new score exceeds high score
+        if (points > highScore) {
           await addScoreToLeaderboard(
             user.uid,
-            newScore,
+            points,
             user.displayName,
             gameType,
-            difficulty
+            difficulty,
           );
-          setHighScore(newScore);
+          setHighScore(points);
         }
       } catch (error) {
-        console.error('Error updating score:', error);
+        console.error("Error updating score:", error);
       }
     },
-    [score, highScore, user, gameType, difficulty]
+    [highScore, user, gameType, difficulty],
   );
 
-  return { score, highScore, updateScore };
+  // New method to force update leaderboard
+  const saveCurrentScore = useCallback(async () => {
+    if (!user?.uid || !user?.displayName || score === 0) return;
+
+    try {
+      await addScoreToLeaderboard(
+        user.uid,
+        score,
+        user.displayName,
+        gameType,
+        difficulty,
+      );
+      if (score > highScore) {
+        setHighScore(score);
+      }
+    } catch (error) {
+      console.error("Error saving current score:", error);
+    }
+  }, [score, highScore, user, gameType, difficulty]);
+
+  return { score, highScore, updateScore, saveCurrentScore };
 };

@@ -105,54 +105,66 @@ VITE_FIREBASE_MESSAGING_SENDER_ID=your_firebase_messaging_sender_id
 VITE_FIREBASE_APP_ID=your_firebase_app_id
 ```
 
-pnpm run dev
+### 4. Run the project
 
+```bash
+pnpm run dev
 ```
+
 Navigate to `http://localhost:5173`
 
 ## 🧩 Key Components
+
 ### Map Interaction
+
 - Custom 3D map rendering
 - Polygon-based gameplay areas
 - Dynamic camera controls
 
 ### Game Mechanics
+
 - Procedural world generation
 - AI generated locations
 - Difficulty-based gameplay
 
 ## 🔒 Security Considerations
+
 - API key protection
 - Environment variable management
 - Client-side input validation
 - Secure Firebase authentication
 
 ## 🎨 Styling
+
 Utilizes Tailwind CSS with custom utilities:
+
 - Responsive design
 - Grid backgrounds
 - Animated interactions
 - Accessibility-focused styles
+
 ## 🔍 Performance Optimization
+
 - Lazy loading of Google Maps API
 - Code splitting
 - Minimal bundle size
 - Efficient rendering strategies
 
 ## 📊 Roadmap
-- [ ] Multiplayer support
-- [ ] More diverse game modes
-- [ ] Enhanced AI interactions
+
+- [ Multiplayer Mode ] Introduce a cooperative multiplayer mode where players can play against playersa around the world or against their friends.
+- [ Custom Game Modes ] Develop tailored game modes for educators or players who want to focus soley on one country, city, or region. This will enhance the educational aspect of the game.
+- [ Weekly Challenges and Customization ] Plan to introduce weekly challenges to keep the game fresh and exciting. As well as add player customization, which could range from adding your country flag on the leaderboard, achievement title and more.
 
 ## 🐛 Known Issues
+
 - Initial map loading might be slow
 - Some browsers may have compatibility limitations
 - Performance varies with device capabilities
 
 ## 🙏 Acknowledgements
+
 - Google Maps Platform
 - Firebase
 
-
 **Happy Exploring! 🌍🚀**
-```

@@ -102,7 +102,7 @@ const Game: React.FC = () => {
     if (isPreview) {
       return {
         time: 90,
-        altitude: 4000,
+        altitude: 1000,
         tilt: 45,
         range: 2000,
       };
@@ -346,20 +346,23 @@ const Game: React.FC = () => {
       clearTimeout(currentTimeout.current);
     }
     if (!user?.uid) {
-      setError("User  not authenticated");
+      setError("User not authenticated");
       setIsLoadingLocation(false);
       return;
     }
+
     try {
       const data = await getGameDataByType(user.uid, gameType);
       setGameData(data);
       setGameState("preview");
+
       const previewSettings = getDifficultySettings(difficulty, true);
       const gameplaySettings = getDifficultySettings(difficulty, false);
       setTimeLeft(gameplaySettings.time);
       setRoundScore(0);
+
       if (data.targetLocation && mapRef.current) {
-        // Set up initial camera position and target markers
+        // Reset camera position to target location
         mapRef.current.center = {
           lat: data.targetLocation.lat,
           lng: data.targetLocation.lng,
@@ -368,30 +371,38 @@ const Game: React.FC = () => {
         mapRef.current.heading = 0;
         mapRef.current.tilt = previewSettings.tilt;
         mapRef.current.range = previewSettings.range;
+
+        // Ensure polygon and marker are created at target location
         createPolygonAroundTarget(data.targetLocation);
         add3DMarker(data.targetLocation);
-        // Start camera animation for location preview
+
+        // Start camera animation after a short delay
         const flyCamera = () => {
-          mapRef.current?.flyCameraAround({
-            camera: {
-              center: {
-                lat: data.targetLocation.lat,
-                lng: data.targetLocation.lng,
-                altitude: previewSettings.altitude,
+          if (mapRef.current && data.targetLocation) {
+            mapRef.current.flyCameraAround({
+              camera: {
+                center: {
+                  lat: data.targetLocation.lat,
+                  lng: data.targetLocation.lng,
+                  altitude: previewSettings.altitude,
+                },
+                heading: 0,
+                tilt: previewSettings.tilt,
+                range: previewSettings.range,
               },
-              heading: 0,
-              tilt: previewSettings.tilt,
-              range: previewSettings.range,
-            },
-            durationMillis: 30000,
-            rounds: 1,
-          });
+              durationMillis: 30000,
+              rounds: 1,
+            });
+          }
         };
+
+        // Add a small delay before starting the camera animation
         setTimeout(flyCamera, 100);
-        // Transition to gameplay after preview
+
+        // Set timeout for transitioning to playing state
         currentTimeout.current = setTimeout(() => {
           setGameState("playing");
-          if (mapRef.current) {
+          if (mapRef.current && data.startLocation) {
             mapRef.current.flyCameraTo({
               endCamera: {
                 center: {
@@ -406,11 +417,13 @@ const Game: React.FC = () => {
               durationMillis: 3000,
             });
           }
+
           if (data.countryBounds && mapRef.current) {
             mapRef.current.bounds = data.countryBounds;
           }
         }, 30000);
       }
+
       setGamesPlayed((prev) => {
         const newGamesPlayed = prev + 1;
         if (newGamesPlayed >= 10) {

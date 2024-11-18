@@ -579,7 +579,7 @@ const Game: React.FC = () => {
         mapRef.current.setAttribute("max-altitude", "100");
         mapRef.current.setAttribute("min-altitude", "0");
       } else {
-        mapRef.current.setAttribute("max-altitude", "1000");
+        mapRef.current.setAttribute("max-altitude", "4000");
         mapRef.current.setAttribute("min-altitude", "0");
       }
     }

@@ -1,5 +1,5 @@
-import React from "react";
-import { MapPin, Clock, Info } from "lucide-react";
+import React, { useState } from "react";
+import { MapPin, Clock, Info, Minimize2, Maximize2 } from "lucide-react";
 import type { GameData } from "../utils/gameLogic";
 // Props interface for LocationPreview component
 interface LocationPreviewProps {
@@ -11,6 +11,32 @@ const LocationPreview: React.FC<LocationPreviewProps> = ({
   gameData,
   timeLimit,
 }) => {
+  // State to track minimized view
+  const [isMinimized, setIsMinimized] = useState(false);
+  // Toggle minimize/maximize
+  const toggleMinimize = () => {
+    setIsMinimized(!isMinimized);
+  };
+  // If minimized, render a compact version
+  if (isMinimized) {
+    return (
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl max-w-md w-full mx-4 border border-gray-100 flex items-center justify-between">
+        <div className="flex items-center space-x-3">
+          <MapPin className="text-red-500" size={20} />
+          <span className="font-semibold text-gray-800">
+            {gameData.targetLocation.name}
+          </span>
+        </div>
+        <button
+          onClick={toggleMinimize}
+          className="hover:bg-gray-100 rounded-full p-1 transition-colors"
+        >
+          <Maximize2 className="text-gray-600" size={20} />
+        </button>
+      </div>
+    );
+  }
+  // Full view rendering
   return (
     <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl max-w-3xl w-full mx-4 border border-gray-100">
       {/* Header Section */}
@@ -24,6 +50,13 @@ const LocationPreview: React.FC<LocationPreviewProps> = ({
           </h2>
         </div>
         <div className="flex items-center space-x-4">
+          {/* Minimize button added to header */}
+          <button
+            onClick={toggleMinimize}
+            className="hover:bg-gray-100 rounded-full p-2 transition-colors mr-2"
+          >
+            <Minimize2 className="text-gray-600" size={20} />
+          </button>
           <div className="flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-lg">
             <Clock className="text-blue-500" size={20} /> {/* Timer icon */}
             <span className="font-semibold text-blue-700">

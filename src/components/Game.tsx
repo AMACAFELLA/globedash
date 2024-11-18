@@ -38,6 +38,7 @@ import { db } from "../utils/firebase";
 import GameEndModal from "./GameEndModal";
 import GameStatus from "./GameStatus";
 import LocationPreview from "./LocationPreview";
+import NowPlaying from "./NowPlaying";
 interface Map3DElement extends HTMLElement {
   center: { lat: number; lng: number; altitude: number };
   heading: number;
@@ -103,9 +104,9 @@ const Game: React.FC = () => {
       };
     }
     const settings = {
-      easy: { time: 90, altitude: 1000, tilt: 45, range: 2000 },
-      normal: { time: 60, altitude: 100, tilt: 95, range: 50 },
-      hard: { time: 45, altitude: 100, tilt: 95, range: 30 },
+      easy: { time: 90, altitude: 2000, tilt: 45, range: 2000 },
+      normal: { time: 60, altitude: 1000, tilt: 95, range: 50 },
+      hard: { time: 45, altitude: 500, tilt: 95, range: 30 },
     };
     return settings[diff];
   };
@@ -627,6 +628,7 @@ const Game: React.FC = () => {
             </div>
           </div>
         )}
+        <NowPlaying />
         <UserAvatar onQuit={() => setShowQuitModal(true)} />
         {showQuitModal && (
           <QuitGameModal

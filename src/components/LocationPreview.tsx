@@ -137,6 +137,11 @@ const LocationPreview: React.FC<LocationPreviewProps> = ({
           Preview ends in <span className="font-semibold">30 seconds</span>{" "}
           {/* Countdown message */}
         </p>
+        <p className="text-center text-sm text-gray-500">
+          You'll either get the correct preview or you'll recieve a{" "}
+          <span className="font-semibold">random location to mislead you</span>{" "}
+          {/* Countdown message */}
+        </p>
       </div>
     </div>
   );

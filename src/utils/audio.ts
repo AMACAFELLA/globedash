@@ -25,6 +25,34 @@ export const MUSIC_PLAYLIST = [
     url: "/sounds/background-music.mp3",
     title: "Adventure Awaits",
   },
+  {
+    url: "/sounds/Coordinates.mp3",
+    title: "Coordinates",
+  },
+  {
+    url: "/sounds/Dora.mp3",
+    title: "Dora",
+  },
+  {
+    url: "/sounds/Explore.mp3",
+    title: "Explore",
+  },
+  {
+    url: "/sounds/GPS.mp3",
+    title: "GPS",
+  },
+  {
+    url: "/sounds/Latitude.mp3",
+    title: "Latitude",
+  },
+  {
+    url: "/sounds/Location.mp3",
+    title: "Location",
+  },
+  {
+    url: "/sounds/Longitude.mp3",
+    title: "Longitude",
+  },
 ];
 // Utility functions for audio state
 export const getCurrentTrack = () => MUSIC_PLAYLIST[currentTrackIndex];

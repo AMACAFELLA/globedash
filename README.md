@@ -168,6 +168,6 @@ Utilizes Tailwind CSS with custom utilities:
 - Google Maps Platform
 - Firebase
 - Mixkit.co( For the game sounds)
-- Udio.com (For creating the background music)
+- Udio.com and Suno.com (For creating the background music)
 
 **Happy Exploring! 🌍🚀**

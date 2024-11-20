@@ -277,6 +277,36 @@ const Game: React.FC = () => {
         duration: 5000,
         icon: "🏆",
       });
+      if (mapRef.current && gameData?.targetLocation) {
+        const startLocation = gameData.targetLocation;
+
+        // Clear any existing timeouts to prevent unintended state changes
+        if (currentTimeout.current) {
+          clearTimeout(currentTimeout.current);
+        }
+
+        const continuousFlyCamera = () => {
+          if (mapRef.current && gameState === "game_end") {
+            mapRef.current.flyCameraAround({
+              camera: {
+                center: {
+                  lat: startLocation.lat,
+                  lng: startLocation.lng,
+                  altitude: 2000, // Adjust altitude as needed
+                },
+                heading: 0,
+                tilt: 45, // Adjust tilt angle as needed
+                range: 2000, // Adjust range as needed
+              },
+              durationMillis: 30000, // 30 seconds per rotation
+              rounds: -1, // Infinite loops
+            });
+          }
+        };
+
+        // Start the camera fly animation immediately
+        continuousFlyCamera();
+      }
     } catch (error) {
       console.error("Error handling game end:", error);
       toast.error("Failed to save game results");
@@ -291,6 +321,7 @@ const Game: React.FC = () => {
     gameType,
     difficulty,
     saveCurrentScore,
+    gameState,
   ]);
   // Handles end of round logic and score updates
   const handleRoundEnd = useCallback(
@@ -573,6 +604,11 @@ const Game: React.FC = () => {
       }, 1000);
       return () => clearInterval(timer);
     }
+    // Prevent any further game progression when in game_end state
+    if (gameState === "game_end") {
+      // Stop any ongoing timers or intervals
+      return () => {};
+    }
   }, [gameState, handleRoundEnd]);
   useEffect(() => {
     if (gameState === "playing") {
@@ -726,7 +762,7 @@ const Game: React.FC = () => {
             gamesPlayed={gamesPlayed}
             achievements={achievements}
             onNextRound={startNewRound}
-            onNewGame={() =>  navigate(0)}
+            onNewGame={() => navigate(0)}
             onHome={() => navigate("/")}
           />
         )}

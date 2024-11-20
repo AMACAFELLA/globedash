@@ -726,7 +726,7 @@ const Game: React.FC = () => {
             gamesPlayed={gamesPlayed}
             achievements={achievements}
             onNextRound={startNewRound}
-            onNewGame={() => setGameState("selectGameType")}
+            onNewGame={() =>  navigate(0)}
             onHome={() => navigate("/")}
           />
         )}
